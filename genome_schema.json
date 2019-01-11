@@ -1,41 +1,58 @@
 {
     "schema": {
-        "assembly_guid": {
-            "type": "keyword"
-        },
-        "cds_count": {
-            "type": "integer"
-        },
-        "contig_count": {
-            "type": "integer"
-        },
         "domain": {
             "type": "keyword"
-        },
-        "feature_count": {
-            "type": "integer"
-        },
-        "id": {
-            "type": "keyword"
-        },
-        "mrna_count": {
-            "type": "integer"
-        },
-        "scientific_name": {
-            "type": "text"
-        },
-        "scientific_name_keyword": {
-            "type": "keyword"
-        },
-        "source": {
-            "type": "keyword"
-        },
-        "source_id": {
-            "type": "keyword"
-        },
+        }, 
+        "suspect": {
+            "type": "boolean"
+        }, 
         "taxonomy": {
             "type": "text"
+        }, 
+        "feature_types": {
+            "type": "keyword"
+        }, 
+        "warnings": {
+            "type": "text"
+        }, 
+        "scientific_name": {
+            "type": "text"
+        }, 
+        "cds_count": {
+            "type": "integer"
+        }, 
+        "notes": {
+            "type": "text"
+        }, 
+        "feature_count": {
+            "type": "integer"
+        }, 
+        "assembly_guid": {
+            "type": "keyword"
+        }, 
+        "source": {
+            "type": "keyword"
+        }, 
+        "contig_count": {
+            "type": "integer"
+        }, 
+        "genome_tiers": {
+            "type": "keyword"
+        }, 
+        "non_coding_feature_count": {
+            "type": "integer"
+        }, 
+        "scientific_name_keyword": {
+            "type": "keyword"
+        }, 
+        "mrna_count": {
+            "type": "integer"
+        }, 
+        "id": {
+            "type": "keyword"
+        }, 
+        "source_id": {
+            "type": "keyword"
         }
     }
 }
-

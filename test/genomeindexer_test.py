@@ -77,7 +77,7 @@ class GenomeIndexerTester(unittest.TestCase):
     @patch('Utils.GenomeIndexer.WorkspaceAdminUtils', autospec=True)
     def index_object_test(self, mock_wsa):
         iu = GenomeIndexer(self.cfg)
-        iu.ws.get_objects2.side_effect = [self.genobj, self.genobj, self.genobj]
+        iu.ws.get_objects2.return_value = self.genobj
         res = iu.index(self.upa)
         self.assertIsNotNone(res)
         self.assertIn('data', res)
@@ -91,7 +91,6 @@ class GenomeIndexerTester(unittest.TestCase):
         self.assertIn('features', res)
         self.assertIn('guid', res['features'][0])
 
-    # TODO: Make this store a genome then index it
     def index_ws_object_xtest(self):
         iu = GenomeIndexer(self.cfg)
         res = iu.index(self.upa2)
@@ -101,12 +100,3 @@ class GenomeIndexerTester(unittest.TestCase):
         self.assertIsNotNone(res)
         self.assertIn('features', res)
         self.assertIn('guid', res['features'][0])
-
-    # @patch('Utils.GenomeIndexer.WorkspaceAdminUtils', autospec=True)
-    # def index_request_test(self, mock_wsa):
-    #     iu = GenomeIndexer(self.cfg)
-    #     iu.ws.get_workspace_info.return_value = self.wsinfo
-    #     iu.ws.get_objects2.return_value = self.narobj
-    #     iu.ws.list_objects.return_value = []
-    #     res = iu.index_request(self.upa)
-    #     self.assertIsNotNone(res)

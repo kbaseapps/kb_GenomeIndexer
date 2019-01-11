@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
-import time
 import unittest
 from configparser import ConfigParser
 
 from kb_GenomeIndexer.kb_GenomeIndexerImpl import kb_GenomeIndexer
 from kb_GenomeIndexer.kb_GenomeIndexerServer import MethodContext
-from kb_GenomeIndexer.authclient import KBaseAuth as _KBaseAuth
 
 from installed_clients.WorkspaceClient import Workspace
 from unittest.mock import Mock
@@ -26,10 +24,7 @@ class kb_GenomeIndexerTest(unittest.TestCase):
             cls.cfg[nameval[0]] = nameval[1]
         cls.cfg['workspace-admin-token'] = token
 
-        # Getting username from Auth profile for token
-        authServiceUrl = cls.cfg['auth-service-url']
-        auth_client = _KBaseAuth(authServiceUrl)
-        user_id = auth_client.get_user(token)
+        user_id = 'blah'
         # WARNING: don't call any logging methods on the context object,
         # it'll result in a NoneType error
         cls.ctx = MethodContext(None)
@@ -51,55 +46,80 @@ class kb_GenomeIndexerTest(unittest.TestCase):
         cls.genomeobj = cls.read_mock('genome_object.json')
 
     @classmethod
-    def tearDownClass(cls):
-        if hasattr(cls, 'wsName'):
-            cls.wsClient.delete_workspace({'workspace': cls.wsName})
-            print('Test workspace was deleted')
-
-    @classmethod
     def read_mock(cls, filename):
         with open(os.path.join(cls.mock_dir, filename)) as f:
             obj = json.loads(f.read())
         return obj
 
-    def getWsClient(self):
-        return self.__class__.wsClient
+    def _validate(self, sfile, data):
+        with open(self.test_dir + '/../' + sfile) as f:
+            d = f.read()
 
-    def getWsName(self):
-        if hasattr(self.__class__, 'wsName'):
-            return self.__class__.wsName
-        suffix = int(time.time() * 1000)
-        wsName = "test_kb_GenomeIndexer_" + str(suffix)
-        ret = self.getWsClient().create_workspace({'workspace': wsName})  # noqa
-        self.__class__.wsName = wsName
-        return wsName
+        schema = json.loads(d)
+        for key in schema['schema'].keys():
+            self.assertIn(key, data)
 
-    def getImpl(self):
-        return self.__class__.serviceImpl
+    def _validate_features(self, sfile, data, plist):
+        with open(self.test_dir + '/../' + sfile) as f:
+            d = f.read()
+        feature = data['features'][0]
+        parent = data['parent']
 
-    def getContext(self):
-        return self.__class__.ctx
+        schema = json.loads(d)
+        for key in schema['schema'].keys():
+            if key in plist:
+                self.assertIn(key, parent)
+            else:
+                self.assertIn(key, feature)
 
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
     def test_indexers(self):
-        impl = self.getImpl()
+        impl = self.serviceImpl
         params = {'upa': '1/2/3'}
+        plist = [
+            'genome_domain',
+            'genome_taxonomy',
+            'genome_scientific_name',
+            'assembly_guid'
+        ]
         impl.indexer.ws.get_objects2 = Mock()
 
         impl.indexer.ws.get_objects2.return_value = self.genomeobj
-        ret = impl.genome_index(self.getContext(), params)
+        ret = impl.genome_index(self.ctx, params)
         self.assertIsNotNone(ret[0])
+        self._validate('genome_schema.json', ret[0]['data'])
 
-        ret = impl.genomefeature_index(self.getContext(), params)
+        ret = impl.genomefeature_index(self.ctx, params)
         self.assertIsNotNone(ret[0])
+        self._validate_features('genomefeature_schema.json', ret[0], plist)
 
-        ret = impl.genomenoncodingfeatures_index(self.getContext(), params)
+        ret = impl.genomenoncodingfeatures_index(self.ctx, params)
         self.assertIsNotNone(ret[0])
+        sfile = 'genomenoncodingfeature_schema.json'
+        self._validate_features(sfile, ret[0], plist)
+
+        g2obj = self.read_mock('genome2_object.json')
+        impl.indexer.ws.get_objects2.return_value = g2obj
+        ret = impl.genome_index(self.ctx, params)
+        self.assertIsNotNone(ret[0])
+        self._validate('genome_schema.json', ret[0]['data'])
+
+        ret = impl.genomefeature_index(self.ctx, params)
+        self.assertIsNotNone(ret[0])
+        self._validate_features('genomefeature_schema.json', ret[0], plist)
+        feature = ret[0]['features'][6069]
+        self.assertIn('SSO:000003112', feature['ontology_terms'])
+        self.assertIn('SSO:000005103', feature['ontology_terms'])
+
+        ret = impl.genomenoncodingfeatures_index(self.ctx, params)
+        self.assertIsNotNone(ret[0])
+        sfile = 'genomenoncodingfeature_schema.json'
+        self._validate_features(sfile, ret[0], plist)
 
     def test_mapping(self):
-        ret = self.getImpl().genome_mapping(self.getContext(), {})
+        ret = self.serviceImpl.genome_mapping(self.ctx, {})
         self.assertIsNotNone(ret[0])
-        ret = self.getImpl().genomefeature_mapping(self.getContext(), {})
+        ret = self.serviceImpl.genomefeature_mapping(self.ctx, {})
         self.assertIsNotNone(ret[0])
-        ret = self.getImpl().genomenoncodingfeatures_mapping(self.getContext(), {})
+        ret = self.serviceImpl.genomenoncodingfeatures_mapping(self.ctx, {})
         self.assertIsNotNone(ret[0])

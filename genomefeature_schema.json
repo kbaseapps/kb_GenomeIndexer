@@ -1,7 +1,7 @@
 {
     "schema": {
         "aliases": {
-            "type": "keyword"
+            "type": "text"
         },
         "assembly_guid": {
             "type": "keyword"
@@ -15,19 +15,22 @@
         "feature_type": {
             "type": "keyword"
         },
-        "functions": {
+        "function": {
             "type": "text"
         },
         "genome_domain": {
             "type": "keyword"
         },
         "genome_scientific_name": {
-            "type": "text"
+            "type": "keyword"
         },
         "genome_taxonomy": {
             "type": "text"
         },
         "id": {
+            "type": "keyword"
+        },
+        "ontology_terms": {
             "type": "keyword"
         },
         "protein_translation": {

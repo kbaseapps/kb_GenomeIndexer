@@ -21,8 +21,9 @@ class GenomeIndexer:
                     'warnings', 'source', 'source_id', 'genome_tiers',
                     'suspect', 'num_contigs']:
             rec[ele] = data.get(ele)
-        rec['sceientific_name_keyword'] = data['scientific_name']
+        rec['scientific_name_keyword'] = data['scientific_name']
         rec['feature_count'] = len(data['features'])
+        rec['contig_count'] = int(data['num_contigs'])
         rec['cds_count'] = len(data['cdss'])
         rec['mrna_count'] = len(data.get('mrnas'))
         rec['non_coding_feature_count'] = len(data.get('non_coding_features', []))
@@ -50,7 +51,17 @@ class GenomeIndexer:
             frec = {}
             frec['id'] = feature['id']
             frec['protein_translation'] = feature.get('protein_translation')
-            frec['functions'] = feature.get('functions')
+            if 'function' in feature:
+                frec['function'] = feature['function']
+            elif 'functions' in feature:
+                frec['function'] = feature['functions']
+            frec['ontology_terms'] = []
+            if 'ontology_terms' in feature:
+                ots = feature['ontology_terms']
+                for ot in ots:
+                    for ns in ots[ot]:
+                        frec['ontology_terms'].append(ns)
+
             frec['aliases'] = feature['aliases'][0]
             frec['feature_type'] = feature['type']
             loc = feature['location'][0]
