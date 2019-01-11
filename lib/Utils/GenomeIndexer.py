@@ -30,22 +30,30 @@ class GenomeIndexer:
         rec['feature_types'] = data.get('feature_counts', None)
         if 'assembly_ref' in data:
             rec['assembly_guid'] = 'WS:%s' % (data['assembly_ref'])
+        elif 'contigset_ref' in data:
+            rec['assembly_guid'] = 'WS:%s' % (data['contigset_ref'])
         return {'data': rec}
 
     def _parent(self, rec):
-        rec = {
+        p = {
             'genome_domain': rec['domain'],
             'genome_taxonomy': rec['taxonomy'],
             'genome_scientific_name': rec['scientific_name'],
-            'assembly_guid': 'WS:%s' % (rec['assembly_ref'])
         }
-        return rec
+        if 'assembly_ref' in rec:
+            p['assembly_guid'] = 'WS:%s' % (rec['assembly_ref'])
+        elif 'contigset_ref' in rec:
+            p['assembly_guid'] = 'WS:%s' % (rec['contigset_ref'])
+        return p
 
     def index_features(self, upa):
         obj = self.ws.get_objects2({'objects': [{'ref': upa}]})['data'][0]
         data = obj['data']
         rec = {}
-        assembly_guid = 'WS:%s' % (data['assembly_ref'])
+        if 'assembly_ref' in data:
+            assembly_guid = 'WS:%s' % (data['assembly_ref'])
+        elif 'contigset_ref' in data:
+            assembly_guid = 'WS:%s' % (data['contigset_ref'])
         rec['parent'] = self._parent(data)
         features_rec = []
         for feature in data['features']:
@@ -81,7 +89,10 @@ class GenomeIndexer:
         obj = self.ws.get_objects2({'objects': [{'ref': upa}]})['data'][0]
         data = obj['data']
         rec = {}
-        assembly_guid = 'WS:%s' % (data['assembly_ref'])
+        if 'assembly_ref' in data:
+            assembly_guid = 'WS:%s' % (data['assembly_ref'])
+        elif 'contigset_ref' in data:
+            assembly_guid = 'WS:%s' % (data['contigset_ref'])
         rec['parent'] = self._parent(data)
         features_rec = []
         for feature in data.get('non_coding_features'):
