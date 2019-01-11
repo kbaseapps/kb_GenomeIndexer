@@ -24,11 +24,12 @@ class GenomeIndexer:
         rec['scientific_name_keyword'] = data['scientific_name']
         rec['feature_count'] = len(data['features'])
         rec['contig_count'] = int(data['num_contigs'])
-        rec['cds_count'] = len(data['cdss'])
+        rec['cds_count'] = len(data.get('cdss'))
         rec['mrna_count'] = len(data.get('mrnas'))
         rec['non_coding_feature_count'] = len(data.get('non_coding_features', []))
         rec['feature_types'] = data.get('feature_counts', None)
-        rec['assembly_guid'] = 'WS:%s' % (data['assembly_ref'])
+        if 'assembly_ref' in data:
+            rec['assembly_guid'] = 'WS:%s' % (data['assembly_ref'])
         return {'data': rec}
 
     def _parent(self, rec):
