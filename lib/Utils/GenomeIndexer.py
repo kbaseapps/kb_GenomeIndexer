@@ -70,7 +70,7 @@ class GenomeIndexer:
                     for ns in ots[ot]:
                         frec['ontology_terms'].append(ns)
 
-            frec['aliases'] = feature['aliases'][0]
+            frec['aliases'] = feature.get('aliases', '')
             frec['feature_type'] = feature['type']
             loc = feature['location'][0]
             frec['contig_id'] = loc[0]
@@ -94,7 +94,7 @@ class GenomeIndexer:
             assembly_guid = 'WS:%s' % (data['contigset_ref'])
         rec['parent'] = self._parent(data)
         features_rec = []
-        for feature in data.get('non_coding_features'):
+        for feature in data.get('non_coding_features', []):
             frec = {}
             frec['id'] = feature['id']
             frec['functions'] = feature.get('functions')

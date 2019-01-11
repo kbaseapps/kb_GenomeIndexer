@@ -24,3 +24,5 @@ ws = Workspace('https://ci.kbase.us/services/ws')
 grab('15792/2', './test/mock_data/genome_object.json')
 
 grab('38735/4/1', './test/mock_data/genome2_object.json')
+
+grab('4/24/1', './test/mock_data/genome3_object.json')
