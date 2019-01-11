@@ -35,11 +35,10 @@ class GenomeIndexer:
         return {'data': rec}
 
     def _parent(self, rec):
-        p = {
-            'genome_domain': rec['domain'],
-            'genome_taxonomy': rec['taxonomy'],
-            'genome_scientific_name': rec['scientific_name'],
-        }
+        p = dict()
+        p['genome_domain'] = rec['domain']
+        p['genome_taxonomy'] = rec.get('taxonomy')
+        p['genome_scientific_name'] = rec.get('scientific_name')
         if 'assembly_ref' in rec:
             p['assembly_guid'] = 'WS:%s' % (rec['assembly_ref'])
         elif 'contigset_ref' in rec:
