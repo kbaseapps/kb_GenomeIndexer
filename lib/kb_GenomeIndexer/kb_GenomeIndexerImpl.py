@@ -20,8 +20,8 @@ class kb_GenomeIndexer:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = ""
-    GIT_COMMIT_HASH = "HEAD"
+    GIT_URL = "git@github.com:kbaseapps/kb_GenomeIndexer.git"
+    GIT_COMMIT_HASH = "2d06fdb39dca91f9a8083ec2de23ab3e3b895e62"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -57,25 +57,6 @@ class kb_GenomeIndexer:
         # return the results
         return [output]
 
-    def genome_mapping(self, ctx, params):
-        """
-        :param params: instance of mapping from String to unspecified object
-        :returns: instance of type "Results" -> structure: parameter
-           "file_name" of String, parameter "index" of unspecified object
-        """
-        # ctx is the context object
-        # return variables are: output
-        #BEGIN genome_mapping
-        output = self.indexer.mapping('genome_schema.json')
-        #END genome_mapping
-
-        # At some point might do deeper type checking...
-        if not isinstance(output, dict):
-            raise ValueError('Method genome_mapping return value ' +
-                             'output is not type dict as required.')
-        # return the results
-        return [output]
-
     def genomefeature_index(self, ctx, params):
         """
         :param params: instance of mapping from String to unspecified object
@@ -95,25 +76,6 @@ class kb_GenomeIndexer:
         # return the results
         return [output]
 
-    def genomefeature_mapping(self, ctx, params):
-        """
-        :param params: instance of mapping from String to unspecified object
-        :returns: instance of type "Results" -> structure: parameter
-           "file_name" of String, parameter "index" of unspecified object
-        """
-        # ctx is the context object
-        # return variables are: output
-        #BEGIN genomefeature_mapping
-        output = self.indexer.mapping('genomefeature_schema.json')
-        #END genomefeature_mapping
-
-        # At some point might do deeper type checking...
-        if not isinstance(output, dict):
-            raise ValueError('Method genomefeature_mapping return value ' +
-                             'output is not type dict as required.')
-        # return the results
-        return [output]
-
     def genomenoncodingfeatures_index(self, ctx, params):
         """
         :param params: instance of mapping from String to unspecified object
@@ -129,25 +91,6 @@ class kb_GenomeIndexer:
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
             raise ValueError('Method genomenoncodingfeatures_index return value ' +
-                             'output is not type dict as required.')
-        # return the results
-        return [output]
-
-    def genomenoncodingfeatures_mapping(self, ctx, params):
-        """
-        :param params: instance of mapping from String to unspecified object
-        :returns: instance of type "Results" -> structure: parameter
-           "file_name" of String, parameter "index" of unspecified object
-        """
-        # ctx is the context object
-        # return variables are: output
-        #BEGIN genomenoncodingfeatures_mapping
-        output = self.indexer.mapping('genomenoncodingfeature_schema.json')
-        #END genomenoncodingfeatures_mapping
-
-        # At some point might do deeper type checking...
-        if not isinstance(output, dict):
-            raise ValueError('Method genomenoncodingfeatures_mapping return value ' +
                              'output is not type dict as required.')
         # return the results
         return [output]

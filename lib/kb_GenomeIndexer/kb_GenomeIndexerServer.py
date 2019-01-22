@@ -342,18 +342,14 @@ class Application(object):
                              name='kb_GenomeIndexer.genome_index',
                              types=[dict])
         self.method_authentication['kb_GenomeIndexer.genome_index'] = 'required'  # noqa
-        self.rpc_service.add(impl_kb_GenomeIndexer.genome_mapping,
-                             name='kb_GenomeIndexer.genome_mapping',
-                             types=[dict])
-        self.method_authentication['kb_GenomeIndexer.genome_mapping'] = 'required'  # noqa
         self.rpc_service.add(impl_kb_GenomeIndexer.genomefeature_index,
                              name='kb_GenomeIndexer.genomefeature_index',
                              types=[dict])
         self.method_authentication['kb_GenomeIndexer.genomefeature_index'] = 'required'  # noqa
-        self.rpc_service.add(impl_kb_GenomeIndexer.genomefeature_mapping,
-                             name='kb_GenomeIndexer.genomefeature_mapping',
+        self.rpc_service.add(impl_kb_GenomeIndexer.genomenoncodingfeatures_index,
+                             name='kb_GenomeIndexer.genomenoncodingfeatures_index',
                              types=[dict])
-        self.method_authentication['kb_GenomeIndexer.genomefeature_mapping'] = 'required'  # noqa
+        self.method_authentication['kb_GenomeIndexer.genomenoncodingfeatures_index'] = 'required'  # noqa
         self.rpc_service.add(impl_kb_GenomeIndexer.status,
                              name='kb_GenomeIndexer.status',
                              types=[dict])

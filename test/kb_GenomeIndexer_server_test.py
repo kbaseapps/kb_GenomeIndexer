@@ -85,55 +85,53 @@ class kb_GenomeIndexerTest(unittest.TestCase):
         impl.indexer.ws.get_objects2 = Mock()
 
         impl.indexer.ws.get_objects2.return_value = self.genomeobj
-        ret = impl.genome_index(self.ctx, params)
-        self.assertIsNotNone(ret[0])
-        self._validate('genome_schema.json', ret[0]['data'])
+        ret = impl.genome_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self._validate('genome_schema.json', ret['data'])
 
-        ret = impl.genomefeature_index(self.ctx, params)
-        self.assertIsNotNone(ret[0])
-        self._validate_features('genomefeature_schema.json', ret[0], plist)
+        ret = impl.genomefeature_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self._validate_features('genomefeature_schema.json', ret, plist)
 
-        ret = impl.genomenoncodingfeatures_index(self.ctx, params)
-        self.assertIsNotNone(ret[0])
+        ret = impl.genomenoncodingfeatures_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
         sfile = 'genomenoncodingfeature_schema.json'
-        self._validate_features(sfile, ret[0], plist)
+        self._validate_features(sfile, ret, plist)
 
         g2obj = self.read_mock('genome2_object.json')
         impl.indexer.ws.get_objects2.return_value = g2obj
-        ret = impl.genome_index(self.ctx, params)
-        self.assertIsNotNone(ret[0])
-        self._validate('genome_schema.json', ret[0]['data'])
+        ret = impl.genome_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self.assertIn('schema', ret)
+        self._validate('genome_schema.json', ret['data'])
 
-        ret = impl.genomefeature_index(self.ctx, params)
-        self.assertIsNotNone(ret[0])
-        self._validate_features('genomefeature_schema.json', ret[0], plist)
-        feature = ret[0]['features'][6069]
+        ret = impl.genomefeature_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self._validate_features('genomefeature_schema.json', ret, plist)
+        feature = ret['features'][6069]
         self.assertIn('SSO:000003112', feature['ontology_terms'])
         self.assertIn('SSO:000005103', feature['ontology_terms'])
+        self.assertIn('schema', ret)
 
-        ret = impl.genomenoncodingfeatures_index(self.ctx, params)
-        self.assertIsNotNone(ret[0])
+        ret = impl.genomenoncodingfeatures_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self.assertIn('schema', ret)
         sfile = 'genomenoncodingfeature_schema.json'
-        self._validate_features(sfile, ret[0], plist)
+        self._validate_features(sfile, ret, plist)
         g2obj = None
 
         g3obj = self.read_mock('genome3_object.json')
         impl.indexer.ws.get_objects2.return_value = g3obj
-        ret = impl.genome_index(self.ctx, params)
-        self.assertIsNotNone(ret[0])
-        self._validate('genome_schema.json', ret[0]['data'])
+        ret = impl.genome_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self.assertIn('schema', ret)
+        self._validate('genome_schema.json', ret['data'])
 
-        ret = impl.genomefeature_index(self.ctx, params)
-        self.assertIsNotNone(ret[0])
-        self._validate_features('genomefeature_schema.json', ret[0], plist)
+        ret = impl.genomefeature_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self.assertIn('schema', ret)
+        self._validate_features('genomefeature_schema.json', ret, plist)
 
-        ret = impl.genomenoncodingfeatures_index(self.ctx, params)
-        self.assertIsNotNone(ret[0])
-
-    def test_mapping(self):
-        ret = self.serviceImpl.genome_mapping(self.ctx, {})
-        self.assertIsNotNone(ret[0])
-        ret = self.serviceImpl.genomefeature_mapping(self.ctx, {})
-        self.assertIsNotNone(ret[0])
-        ret = self.serviceImpl.genomenoncodingfeatures_mapping(self.ctx, {})
-        self.assertIsNotNone(ret[0])
+        ret = impl.genomenoncodingfeatures_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self.assertIn('schema', ret)

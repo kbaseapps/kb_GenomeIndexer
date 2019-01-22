@@ -32,7 +32,8 @@ class GenomeIndexer:
             rec['assembly_guid'] = 'WS:%s' % (data['assembly_ref'])
         elif 'contigset_ref' in data:
             rec['assembly_guid'] = 'WS:%s' % (data['contigset_ref'])
-        return {'data': rec}
+        schema = self.mapping('genome_schema.json')
+        return {'data': rec, 'schema': schema}
 
     def _parent(self, rec):
         p = dict()
@@ -82,6 +83,7 @@ class GenomeIndexer:
             features_rec.append(frec)
 
         rec['features'] = features_rec
+        rec['schema'] = self.mapping('genomefeature_schema.json')
         return rec
 
     def index_non_coding_features(self, upa):
@@ -113,6 +115,7 @@ class GenomeIndexer:
             features_rec.append(frec)
 
         rec['features'] = features_rec
+        rec['schema'] = self.mapping('genomenoncodingfeature_schema.json')
         return rec
 
     def mapping(self, filename):

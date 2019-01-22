@@ -10,13 +10,8 @@ module kb_GenomeIndexer {
 
     funcdef genome_index(mapping<string,UnspecifiedObject> params) returns (Results output) authentication required;
 
-    funcdef genome_mapping(mapping<string,UnspecifiedObject> params) returns (Results output) authentication required;
-
     funcdef genomefeature_index(mapping<string,UnspecifiedObject> params) returns (Results output) authentication required;
-
-    funcdef genomefeature_mapping(mapping<string,UnspecifiedObject> params) returns (Results output) authentication required;
 
     funcdef genomenoncodingfeatures_index(mapping<string,UnspecifiedObject> params) returns (Results output) authentication required;
 
-    funcdef genomenoncodingfeatures_mapping(mapping<string,UnspecifiedObject> params) returns (Results output) authentication required;
 };
