@@ -51,6 +51,7 @@ class GenomeIndexer:
             "taxonomy": rec["taxonomy"],
             "warnings": rec["warnings"]
         }
+        rec['objdata'] = obj
         return {'data': rec, 'schema': schema}
 
     def _parent(self, rec):
