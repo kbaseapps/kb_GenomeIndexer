@@ -85,6 +85,8 @@ class GenomeIndexerTester(unittest.TestCase):
         self.assertIsNotNone(res)
         self.assertIn('features', res)
         self.assertIn('guid', res['features'][0])
+        self.assertIn('objdata', res['features'][0])
+        self.assertIn('location', res['features'][0]['objdata'])
 
         res = iu.index_non_coding_features(self.upa)
         self.assertIsNotNone(res)

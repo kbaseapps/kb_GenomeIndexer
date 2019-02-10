@@ -130,6 +130,25 @@ class kb_GenomeIndexerTest(unittest.TestCase):
         ret = impl.genomefeature_index(self.ctx, params)[0]
         self.assertIsNotNone(ret)
         self.assertIn('schema', ret)
+        self.assertNotIn('schema', ret['schema'])
+        self._validate_features('genomefeature_schema.json', ret, plist)
+
+        ret = impl.genomenoncodingfeatures_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self.assertIn('schema', ret)
+
+        g3obj = self.read_mock('genome28853_object.json')
+        impl.indexer.ws.get_objects2.return_value = g3obj
+        ret = impl.genome_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self.assertIn('schema', ret)
+        self._validate('genome_schema.json', ret['data'])
+        print(ret['data']['feature_types'])
+
+        ret = impl.genomefeature_index(self.ctx, params)[0]
+        self.assertIsNotNone(ret)
+        self.assertIn('schema', ret)
+        self.assertNotIn('schema', ret['schema'])
         self._validate_features('genomefeature_schema.json', ret, plist)
 
         ret = impl.genomenoncodingfeatures_index(self.ctx, params)[0]
