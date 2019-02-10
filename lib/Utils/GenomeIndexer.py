@@ -112,6 +112,15 @@ class GenomeIndexer:
             frec['stop'] = loc[3]
             frec['contig_guid'] = '%s:contig/%s' % (assembly_guid, loc[0])
             frec['guid'] = 'WS:%s:%s' % (self._guid(upa), feature['id'])
+            obj = {
+                "aliases": [frec['aliases']],
+                "functions": [frec['functions']],
+                "id": [frec['id']],
+                "type": [frec['feature_type']],
+                "location": [loc]
+            }
+            frec['objdata'] = obj
+
             features_rec.append(frec)
 
         rec['features'] = features_rec
