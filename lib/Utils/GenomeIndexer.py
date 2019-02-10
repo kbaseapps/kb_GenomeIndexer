@@ -60,6 +60,7 @@ class GenomeIndexer:
             frec = {}
             frec['id'] = feature['id']
             frec['protein_translation'] = feature.get('protein_translation')
+            frec['function'] = ''
             if 'function' in feature:
                 frec['function'] = feature['function']
             elif 'functions' in feature:
@@ -80,6 +81,14 @@ class GenomeIndexer:
             frec['stop'] = loc[3]
             frec['contig_guid'] = '%s:contig/%s' % (assembly_guid, loc[0])
             frec['guid'] = '%s:%s' % (self._guid(upa), feature['id'])
+            obj = {
+                "aliases": [frec['aliases']],
+                "functions": [frec['function']],
+                "id": [frec['id']],
+                "type": [frec['feature_type']],
+                "location": [loc]
+            }
+            frec['objdata'] = obj
             features_rec.append(frec)
 
         rec['features'] = features_rec
