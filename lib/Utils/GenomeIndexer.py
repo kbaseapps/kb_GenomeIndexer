@@ -33,6 +33,24 @@ class GenomeIndexer:
         elif 'contigset_ref' in data:
             rec['assembly_guid'] = 'WS:%s' % (data['contigset_ref'])
         schema = self.mapping('genome_schema.json')
+        obj = {
+            'assembly_ref': rec['assembly_guid'],
+            'cdss': rec['cds_count'],
+            'domain': rec['domain'],
+            'feature_counts': rec['feature_types'],
+            "features": rec['feature_count'],
+            "genome_tiers": rec["genome_tiers"],
+            "id": rec["id"],
+            "mrnas": rec["mrna_count"],
+            "non_coding_features": rec["non_coding_feature_count"],
+            "notes": rec['notes'],
+            "num_contigs": rec["contig_count"],
+            "scientific_name": rec["scientific_name"],
+            "source": rec["source"],
+            "source_id": rec["source_id"],
+            "taxonomy": rec["taxonomy"],
+            "warnings": rec["warnings"]
+        }
         return {'data': rec, 'schema': schema}
 
     def _parent(self, rec):
