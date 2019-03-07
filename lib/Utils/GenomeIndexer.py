@@ -111,7 +111,7 @@ class GenomeIndexer:
             frec['objdata'] = obj
             features_rec.append(frec)
 
-        rec['features'] = features_rec
+        rec['documents'] = features_rec
         rec['schema'] = self.mapping('genomefeature_schema.json')
         return rec
 
@@ -146,7 +146,7 @@ class GenomeIndexer:
             frec['objdata'] = obj
             features_rec.append(frec)
 
-        rec['features'] = features_rec
+        rec['documents'] = features_rec
         rec['schema'] = self.mapping('genomenoncodingfeature_schema.json')
         return rec
 

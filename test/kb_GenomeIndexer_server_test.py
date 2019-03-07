@@ -62,7 +62,7 @@ class kb_GenomeIndexerTest(unittest.TestCase):
     def _validate_features(self, sfile, data, plist):
         with open(os.path.join(self.schema_dir, sfile)) as f:
             d = f.read()
-        feature = data['features'][0]
+        feature = data['documents'][0]
         parent = data['parent']
 
         schema = json.loads(d)
@@ -108,7 +108,7 @@ class kb_GenomeIndexerTest(unittest.TestCase):
         ret = impl.genomefeature_index(self.ctx, params)[0]
         self.assertIsNotNone(ret)
         self._validate_features('genomefeature_schema.json', ret, plist)
-        feature = ret['features'][6069]
+        feature = ret['documents'][6069]
         self.assertIn('SSO:000003112', feature['ontology_terms'])
         self.assertIn('SSO:000005103', feature['ontology_terms'])
         self.assertIn('schema', ret)
