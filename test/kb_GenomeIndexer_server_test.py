@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
+import json
 import os
 import unittest
 from configparser import ConfigParser
-
-from kb_GenomeIndexer.kb_GenomeIndexerImpl import kb_GenomeIndexer
-from kb_GenomeIndexer.kb_GenomeIndexerServer import MethodContext
+from unittest.mock import Mock
 
 from installed_clients.WorkspaceClient import Workspace
-from unittest.mock import Mock
-import json
+from kb_GenomeIndexer.kb_GenomeIndexerImpl import kb_GenomeIndexer
+from kb_GenomeIndexer.kb_GenomeIndexerServer import MethodContext
 
 
 class kb_GenomeIndexerTest(unittest.TestCase):
@@ -42,6 +41,7 @@ class kb_GenomeIndexerTest(unittest.TestCase):
         cls.scratch = cls.cfg['scratch']
         cls.test_dir = os.path.dirname(os.path.abspath(__file__))
         cls.mock_dir = os.path.join(cls.test_dir, 'mock_data')
+        cls.schema_dir = cls.cfg['schema-dir']
 
         cls.genomeobj = cls.read_mock('genome_object.json')
 
@@ -52,7 +52,7 @@ class kb_GenomeIndexerTest(unittest.TestCase):
         return obj
 
     def _validate(self, sfile, data):
-        with open(self.test_dir + '/../' + sfile) as f:
+        with open(os.path.join(self.schema_dir, sfile)) as f:
             d = f.read()
 
         schema = json.loads(d)
@@ -60,7 +60,7 @@ class kb_GenomeIndexerTest(unittest.TestCase):
             self.assertIn(key, data)
 
     def _validate_features(self, sfile, data, plist):
-        with open(self.test_dir + '/../' + sfile) as f:
+        with open(os.path.join(self.schema_dir, sfile)) as f:
             d = f.read()
         feature = data['features'][0]
         parent = data['parent']
