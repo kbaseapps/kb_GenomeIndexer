@@ -1,5 +1,6 @@
-from Workspace.WorkspaceClient import Workspace
 import os
+
+from installed_clients.WorkspaceClient import Workspace
 # We have to use the administer method for all accesses
 
 

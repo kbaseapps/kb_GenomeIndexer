@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
-import unittest
-import os  # noqa: F401
 import json  # noqa: F401
+import os  # noqa: F401
 import time
+import unittest
+from configparser import ConfigParser  # py3
+from os import environ
 from unittest.mock import patch
 
-from os import environ
-from configparser import ConfigParser  # py3
-
-from pprint import pprint  # noqa: F401
-
-from Workspace.WorkspaceClient import Workspace as workspaceService
-# from GenomeIndexer.authclient import KBaseAuth as _KBaseAuth
 from Utils.GenomeIndexer import GenomeIndexer
+from installed_clients.WorkspaceClient import Workspace as workspaceService
 
 
 class GenomeIndexerTester(unittest.TestCase):
@@ -42,12 +38,6 @@ class GenomeIndexerTester(unittest.TestCase):
         cls.mock_dir = os.path.join(cls.test_dir, 'mock_data')
 
         cls.wsinfo = cls.read_mock('get_workspace_info.json')
-        # [16962, u'scanon:narrative_1485560571814', u'scanon',
-        #              u'2018-10-18T00:12:42+0000', 25, u'a', u'n',
-        #              u'unlocked',
-        #              {u'is_temporary': u'false', u'narrative': u'23',
-        #               u'narrative_nice_name': u'RNASeq Analysis - Jose',
-        #               u'data_palette_id': u'22'}]
         cls.genobj = cls.read_mock('genome_object.json')
 
     @classmethod
@@ -83,15 +73,15 @@ class GenomeIndexerTester(unittest.TestCase):
         self.assertIn('data', res)
         res = iu.index_features(self.upa)
         self.assertIsNotNone(res)
-        self.assertIn('features', res)
-        self.assertIn('guid', res['features'][0])
-        self.assertIn('objdata', res['features'][0])
-        self.assertIn('location', res['features'][0]['objdata'])
+        self.assertIn('documents', res)
+        self.assertIn('guid', res['documents'][0])
+        self.assertIn('objdata', res['documents'][0])
+        self.assertIn('location', res['documents'][0]['objdata'])
 
         res = iu.index_non_coding_features(self.upa)
         self.assertIsNotNone(res)
-        self.assertIn('features', res)
-        self.assertIn('guid', res['features'][0])
+        self.assertIn('documents', res)
+        self.assertIn('guid', res['documents'][0])
 
     def index_ws_object_xtest(self):
         iu = GenomeIndexer(self.cfg)
@@ -100,5 +90,5 @@ class GenomeIndexerTester(unittest.TestCase):
         self.assertIn('data', res)
         res = iu.index_features(self.upa2)
         self.assertIsNotNone(res)
-        self.assertIn('features', res)
-        self.assertIn('guid', res['features'][0])
+        self.assertIn('documents', res)
+        self.assertIn('guid', res['documents'][0])
